@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>3D CSS3 Gallery Slideshow</title>
+		<link href="styles/screen.css" type="text/css" rel="stylesheet" />
+		<script src="scripts/jquery.js"></script>
+		<script>
+		
+		</script>
+	</head>
+	<body>
+		<div id="stage">
+		<div id="rotate">
+			<div id="container">
+				<h1>3D CSS3 SLIDESHOW</h1>
+				<ul class="thumbnails">
+					<li id="img1"><img src="images/small/1.jpg" rel="images/large/1.jpg" width="600" height="338" alt="Photo 1" /><span>RED WALL</span></li>
+					<li id="img2"><img src="images/small/2.jpg" rel="images/large/2.jpg" width="600" height="338" alt="Photo 2" /><span>BEACH WALL</span></li>
+					<li id="img3"><img src="images/small/3.jpg" rel="images/large/3.jpg" width="600" height="338" alt="Photo 3" /><span>GREEN WALL</span></li>
+					<li id="img4"><img src="images/small/4.jpg" rel="images/large/4.jpg" width="600" height="338" alt="Photo 4" /><span>ANOTHER GREEN WALL</span></li>
+					<li id="img5"><img src="images/small/5.jpg" rel="images/large/5.jpg" width="600" height="338" alt="Photo 5" /><span>BLUE WALL</span></li>
+				</ul>
+				<ul class="thumblinks">
+					<li><a href="#img1" class="selected">Image 1</a></li>
+					<li><a href="#img2">Image 2</a></li>
+					<li><a href="#img3">Image 3</a></li>
+					<li><a href="#img4">Image 4</a></li>
+					<li><a href="#img5">Image 5</a></li>
+				</ul>
+			</div>
+			<div id="bottom">
+				<img src="images/large/1.jpg" width="1920" height="1200" alt="Image 1" />
+			</div>
+		</div>
+		</div>
+
+	<script>
+			$(document).ready(function(){
+				$(".thumblinks li a").click(function(){
+					event.preventDefault()
+					reference = $(this).attr("href");
+					$(".thumblinks li a").removeClass("selected");
+					$(this).addClass("selected");
+					$(".thumbnails li:first").before($(reference));
+					$("#bottom img").attr("src",$(reference+" img").attr("rel"));
+					
+					if ($("#bottom img").find("span")) {
+						$("#bottom img span").remove();
+					}
+
+					$("#bottom img").append("<span>Span content goes here: "+ reference +"</span>");
+					
+					winheight=parseInt($(window).height());
+					winwidth=parseInt($(window).width());
+					if((winwidth/16*9)<winheight) {
+						$("#bottom img").css({height:winheight});
+					} else {
+						
+						$("#bottom img").css({width:winwidth});
+					}
+
+					$("#container").css({height:winheight});
+					$("#bottom").css({webkitTransform: "rotateX(-90deg) translateZ(-"+(winheight/2)+"px) translateY("+(winheight/2)+"px)",height:winheight})
+				
+				});
+
+				$(".thumbnails").click(function(){
+					$("#rotate").css({webkitTransform:"scale3d(1, 1, 1) rotateX(90deg) translateY(-"+(winheight)+"px)"});
+				});
+
+				$("#bottom img").click(function(){
+					$("#rotate").css({webkitTransform:"scale3d(1, 1, 1) rotateX(0deg) translateZ(0px)"});
+				});
+
+			});
+	</script>
+	</body>
+</html>
