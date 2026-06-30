@@ -418,18 +418,16 @@
 	}
 
 	.gallery-frame.is-immersive .featured-card {
-		--stage-depth: 88px;
+		--stage-depth: 0px;
 		transform:
 			perspective(1800px)
-			translateZ(var(--stage-depth))
 			rotateX(var(--tilt-x))
-			rotateY(var(--tilt-y))
-			scale(1.015);
+			rotateY(var(--tilt-y));
 	}
 
 	.gallery-frame.is-immersive .image-wrap {
 		aspect-ratio: auto;
-		height: min(82vh, 62rem);
+		height: min(80vh, 60rem);
 	}
 
 	.gallery-frame.is-immersive .thumbnail-panel {
