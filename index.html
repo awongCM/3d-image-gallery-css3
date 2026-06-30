@@ -1,79 +1,106 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+<html lang="en">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>3D CSS3 Gallery Slideshow</title>
-		<link href="styles/screen.css" type="text/css" rel="stylesheet" />
-		<script src="scripts/jquery.js"></script>
-		<script>
-		
-		</script>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="color-scheme" content="dark">
+		<title>Modern 3D CSS Gallery</title>
+		<link href="styles/screen.css" rel="stylesheet">
+		<script src="scripts/gallery.js" defer></script>
 	</head>
 	<body>
-		<div id="stage">
-		<div id="rotate">
-			<div id="container">
-				<h1>3D CSS3 SLIDESHOW</h1>
-				<ul class="thumbnails">
-					<li id="img1"><img src="images/small/1.jpg" rel="images/large/1.jpg" width="600" height="338" alt="Photo 1" /><span>RED WALL</span></li>
-					<li id="img2"><img src="images/small/2.jpg" rel="images/large/2.jpg" width="600" height="338" alt="Photo 2" /><span>BEACH WALL</span></li>
-					<li id="img3"><img src="images/small/3.jpg" rel="images/large/3.jpg" width="600" height="338" alt="Photo 3" /><span>GREEN WALL</span></li>
-					<li id="img4"><img src="images/small/4.jpg" rel="images/large/4.jpg" width="600" height="338" alt="Photo 4" /><span>ANOTHER GREEN WALL</span></li>
-					<li id="img5"><img src="images/small/5.jpg" rel="images/large/5.jpg" width="600" height="338" alt="Photo 5" /><span>BLUE WALL</span></li>
-				</ul>
-				<ul class="thumblinks">
-					<li><a href="#img1" class="selected">Image 1</a></li>
-					<li><a href="#img2">Image 2</a></li>
-					<li><a href="#img3">Image 3</a></li>
-					<li><a href="#img4">Image 4</a></li>
-					<li><a href="#img5">Image 5</a></li>
-				</ul>
-			</div>
-			<div id="bottom">
-				<img src="images/large/1.jpg" width="1920" height="1200" alt="Image 1" />
-			</div>
-		</div>
-		</div>
+		<a class="skip-link" href="#gallery">Skip to gallery</a>
 
-	<script>
-			$(document).ready(function(){
-				$(".thumblinks li a").click(function(){
-					event.preventDefault()
-					reference = $(this).attr("href");
-					$(".thumblinks li a").removeClass("selected");
-					$(this).addClass("selected");
-					$(".thumbnails li:first").before($(reference));
-					$("#bottom img").attr("src",$(reference+" img").attr("rel"));
-					
-					if ($("#bottom img").find("span")) {
-						$("#bottom img span").remove();
-					}
+		<main class="page-shell">
+			<header class="hero">
+				<p class="eyebrow">Plain HTML, CSS, and a little vanilla JavaScript</p>
+				<h1>3D CSS gallery, refreshed for the modern web</h1>
+				<p class="intro">The original vertical flip demo now uses semantic controls, scroll snapping, container queries, animatable CSS variables, and View Transition-enhanced image swaps.</p>
+			</header>
 
-					$("#bottom img").append("<span>Span content goes here: "+ reference +"</span>");
-					
-					winheight=parseInt($(window).height());
-					winwidth=parseInt($(window).width());
-					if((winwidth/16*9)<winheight) {
-						$("#bottom img").css({height:winheight});
-					} else {
-						
-						$("#bottom img").css({width:winwidth});
-					}
+			<section class="gallery-frame" id="gallery" aria-labelledby="gallery-title">
+				<div class="gallery-heading">
+					<div>
+						<p class="eyebrow">Interactive scene</p>
+						<h2 id="gallery-title">Choose a wall study</h2>
+					</div>
+					<button class="mode-toggle" id="mode-toggle" type="button" aria-pressed="false">Enter 3D view</button>
+				</div>
 
-					$("#container").css({height:winheight});
-					$("#bottom").css({webkitTransform: "rotateX(-90deg) translateZ(-"+(winheight/2)+"px) translateY("+(winheight/2)+"px)",height:winheight})
-				
-				});
+				<div class="scene" id="scene">
+					<figure class="featured-card" aria-live="polite">
+						<div class="image-wrap">
+							<img id="featured-image" src="images/large/1.jpg" width="1920" height="1200" alt="Red wall study" fetchpriority="high" decoding="async">
+						</div>
+						<figcaption>
+							<span id="featured-kicker">Image 1 of 6</span>
+							<strong id="featured-title">Red Wall</strong>
+							<span id="featured-caption">The vintage demo image, now promoted through a responsive 3D stage.</span>
+						</figcaption>
+					</figure>
 
-				$(".thumbnails").click(function(){
-					$("#rotate").css({webkitTransform:"scale3d(1, 1, 1) rotateX(90deg) translateY(-"+(winheight)+"px)"});
-				});
+					<div class="thumbnail-panel">
+						<p class="panel-label">Scroll, click, or tab through the set</p>
+						<ul class="thumbnail-strip" aria-label="Gallery thumbnails">
+							<li>
+								<button class="thumbnail is-active" type="button" aria-current="true" data-index="1" data-title="Red Wall" data-caption="The vintage demo image, now promoted through a responsive 3D stage." data-large="images/large/1.jpg" data-alt="Red wall study">
+									<img src="images/small/1.jpg" width="600" height="338" alt="" loading="eager" decoding="async">
+									<span>Red Wall</span>
+								</button>
+							</li>
+							<li>
+								<button class="thumbnail" type="button" data-index="2" data-title="Beach Wall" data-caption="A bright coastal frame for testing depth, scale, and motion." data-large="images/large/2.jpg" data-alt="Beach wall study">
+									<img src="images/small/2.jpg" width="600" height="338" alt="" loading="lazy" decoding="async">
+									<span>Beach Wall</span>
+								</button>
+							</li>
+							<li>
+								<button class="thumbnail" type="button" data-index="3" data-title="Green Wall" data-caption="A green-toned surface with enough contrast for caption and overlay checks." data-large="images/large/3.jpg" data-alt="Green wall study">
+									<img src="images/small/3.jpg" width="600" height="338" alt="" loading="lazy" decoding="async">
+									<span>Green Wall</span>
+								</button>
+							</li>
+							<li>
+								<button class="thumbnail" type="button" data-index="4" data-title="Garden Wall" data-caption="A deeper green image that shows the panel shadows and 3D hover tilt." data-large="images/large/4.jpg" data-alt="Garden wall study">
+									<img src="images/small/4.jpg" width="600" height="338" alt="" loading="lazy" decoding="async">
+									<span>Garden Wall</span>
+								</button>
+							</li>
+							<li>
+								<button class="thumbnail" type="button" data-index="5" data-title="Blue Wall" data-caption="Cool colors make the OKLCH overlay and focus treatment easier to read." data-large="images/large/5.jpg" data-alt="Blue wall study">
+									<img src="images/small/5.jpg" width="600" height="338" alt="" loading="lazy" decoding="async">
+									<span>Blue Wall</span>
+								</button>
+							</li>
+							<li>
+								<button class="thumbnail" type="button" data-index="6" data-title="Violet Wall" data-caption="The sixth asset becomes part of the gallery instead of sitting unused." data-large="images/large/6.jpg" data-alt="Violet wall study">
+									<img src="images/small/6.jpg" width="600" height="338" alt="" loading="lazy" decoding="async">
+									<span>Violet Wall</span>
+								</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section>
 
-				$("#bottom img").click(function(){
-					$("#rotate").css({webkitTransform:"scale3d(1, 1, 1) rotateX(0deg) translateZ(0px)"});
-				});
-
-			});
-	</script>
+			<section class="notes" aria-labelledby="notes-title">
+				<p class="eyebrow">Why this version is different</p>
+				<h2 id="notes-title">A 2026 refresh without a build step</h2>
+				<div class="note-grid">
+					<article>
+						<h3>Native motion</h3>
+						<p>Transforms, CSS variables, and View Transitions handle the visual change while the JavaScript only updates state.</p>
+					</article>
+					<article>
+						<h3>Modern layout</h3>
+						<p>Scroll Snap and container queries replace fixed-width assumptions so the gallery scales down cleanly.</p>
+					</article>
+					<article>
+						<h3>Respectful UX</h3>
+						<p>Keyboard buttons, visible focus, valid image metadata, and reduced-motion styles keep the demo usable.</p>
+					</article>
+				</div>
+			</section>
+		</main>
 	</body>
 </html>
