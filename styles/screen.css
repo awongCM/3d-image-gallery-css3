@@ -469,7 +469,6 @@
 
 	.gallery-frame:modal .thumbnail-panel {
 		position: static;
-		max-height: 38%;
 		opacity: 1;
 		transform: none;
 	}
@@ -485,13 +484,13 @@
 	}
 
 	.gallery-frame:modal .thumbnail-strip > li {
-		flex: 0 0 7.5rem;
-		min-width: 7.5rem;
+		flex: 0 0 8.5rem;
+		min-width: 8.5rem;
 		scroll-snap-align: start;
 	}
 
 	.gallery-frame:modal .thumbnail img {
-		height: 4.25rem;
+		height: 5.25rem;
 	}
 
 	@container (max-width: 860px) {
