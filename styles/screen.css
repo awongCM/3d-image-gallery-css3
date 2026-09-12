@@ -159,6 +159,8 @@
 	}
 
 	.gallery-frame {
+		position: relative;
+		display: block;
 		container-type: inline-size;
 		width: 100%;
 		max-width: none;
@@ -209,74 +211,6 @@
 		margin-block-start: 1rem;
 	}
 
-	.gallery-frame:modal {
-		inset: 0.75rem;
-		display: grid;
-		grid-template-rows: auto minmax(0, 1fr);
-		width: auto;
-		height: auto;
-		max-width: none;
-		max-height: none;
-		margin: 0;
-		overflow: hidden;
-		background: rgb(4 5 10 / 0.92);
-	}
-
-	.gallery-frame:modal .gallery-heading {
-		position: static;
-		margin-block-end: 0.75rem;
-	}
-
-	.gallery-frame:modal .scene {
-		grid-template-columns: 1fr;
-		grid-template-rows: minmax(0, 1fr) auto;
-		gap: 0.75rem;
-		min-height: 0;
-		height: 100%;
-	}
-
-	.gallery-frame:modal .featured-card {
-		--stage-depth: 0px;
-		display: grid;
-		grid-template-rows: minmax(0, 1fr) auto;
-		min-height: 0;
-		max-height: 100%;
-		transform:
-			perspective(1800px)
-			rotateX(var(--tilt-x))
-			rotateY(var(--tilt-y));
-	}
-
-	.gallery-frame:modal .image-wrap {
-		aspect-ratio: auto;
-		min-height: 0;
-		height: 100%;
-	}
-
-	.gallery-frame:modal .featured-card figcaption {
-		position: static;
-		inset: auto;
-		max-width: none;
-		border-radius: 0;
-		transform: none;
-	}
-
-	.gallery-frame:modal .thumbnail-panel {
-		position: static;
-		opacity: 1;
-		transform: none;
-	}
-
-	.gallery-frame:modal .thumbnail-strip {
-		grid-auto-columns: minmax(9rem, 18%);
-		grid-auto-flow: column;
-		overflow-x: auto;
-		overscroll-behavior-inline: contain;
-		scroll-padding-inline: 1rem;
-		scroll-snap-type: x mandatory;
-		padding-block-end: 0.35rem;
-	}
-
 	@media (max-width: 860px) {
 		.note-grid {
 			grid-template-columns: 1fr;
@@ -292,16 +226,6 @@
 		.scene,
 		.note-grid {
 			grid-template-columns: 1fr;
-		}
-
-		.thumbnail-strip {
-			grid-auto-columns: minmax(9rem, 42%);
-			grid-auto-flow: column;
-			overflow-x: auto;
-			overscroll-behavior-inline: contain;
-			scroll-padding-inline: 1rem;
-			scroll-snap-type: x mandatory;
-			padding-block-end: 0.35rem;
 		}
 	}
 }
@@ -484,6 +408,87 @@
 		margin: 0;
 		color: var(--muted);
 		line-height: 1.6;
+	}
+
+	.gallery-frame:modal {
+		position: fixed;
+		inset: 0.75rem;
+		display: grid;
+		grid-template-rows: auto minmax(0, 1fr);
+		width: calc(100vw - 1.5rem);
+		height: calc(100dvh - 1.5rem);
+		max-width: none;
+		max-height: calc(100dvh - 1.5rem);
+		margin: 0;
+		overflow: hidden;
+		background: rgb(4 5 10 / 0.92);
+	}
+
+	.gallery-frame:modal .gallery-heading {
+		position: static;
+		margin-block-end: 0.75rem;
+	}
+
+	.gallery-frame:modal .scene {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(0, 1fr) auto;
+		gap: 0.75rem;
+		min-height: 0;
+		height: 100%;
+	}
+
+	.gallery-frame:modal .featured-card {
+		--stage-depth: 0px;
+		display: grid;
+		grid-template-rows: minmax(0, 1fr) auto;
+		min-height: 0;
+		max-height: 100%;
+		transform:
+			perspective(1800px)
+			rotateX(var(--tilt-x))
+			rotateY(var(--tilt-y));
+	}
+
+	.gallery-frame:modal .image-wrap {
+		aspect-ratio: auto;
+		min-height: 0;
+		height: 100%;
+	}
+
+	.gallery-frame:modal .featured-card figcaption {
+		position: static;
+		inset: auto;
+		max-width: none;
+		border-radius: 0;
+		transform: none;
+	}
+
+	.gallery-frame:modal .thumbnail-panel {
+		position: static;
+		opacity: 1;
+		transform: none;
+	}
+
+	.gallery-frame:modal .thumbnail-strip {
+		grid-auto-columns: minmax(9rem, 18%);
+		grid-auto-flow: column;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		scroll-padding-inline: 1rem;
+		scroll-snap-type: x mandatory;
+		padding-block-end: 0.35rem;
+	}
+
+	@container (max-width: 860px) {
+		.thumbnail-strip {
+			grid-auto-columns: minmax(9rem, 42%);
+			grid-auto-flow: column;
+			overflow-x: auto;
+			overscroll-behavior-inline: contain;
+			scroll-padding-inline: 1rem;
+			scroll-snap-type: x mandatory;
+			padding-block-end: 0.35rem;
+		}
 	}
 }
 

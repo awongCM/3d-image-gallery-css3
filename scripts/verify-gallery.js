@@ -97,6 +97,18 @@ check(
 	"Immersive .image-wrap must not use magic vh heights; size it to the dialog overlay instead."
 );
 
+check(
+	"inline dialog stays in document flow",
+	/\.gallery-frame\s*\{[^}]*position:\s*relative/.test(css),
+	"Non-modal .gallery-frame must be position: relative so UA dialog absolute positioning does not overlay the notes."
+);
+
+check(
+	"modal dialog has a definite overlay height",
+	/\.gallery-frame:modal\s*\{[^}]*height:\s*calc\(100dvh/.test(css),
+	"Modal dialog needs a definite dvh height so the featured card 1fr row cannot collapse."
+);
+
 if (failures.length) {
 	console.error(`verify-gallery: ${failures.length} failed\n`);
 	failures.forEach((failure) => {
@@ -105,4 +117,4 @@ if (failures.length) {
 	process.exit(1);
 }
 
-console.log("verify-gallery: 8 checks passed");
+console.log("verify-gallery: 10 checks passed");
