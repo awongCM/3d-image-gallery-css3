@@ -116,6 +116,7 @@
 	}
 
 	.page-shell {
+		container-type: inline-size;
 		width: min(1180px, calc(100% - 2rem));
 		margin-inline: auto;
 		padding-block: clamp(2rem, 6vw, 5rem);
@@ -159,12 +160,21 @@
 
 	.gallery-frame {
 		container-type: inline-size;
+		width: 100%;
+		max-width: none;
+		max-height: none;
+		margin: 0;
 		padding: clamp(1rem, 3vw, 1.5rem);
 		border: 1px solid var(--panel-strong);
 		border-radius: var(--radius-lg);
+		color: inherit;
 		background: linear-gradient(145deg, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.035));
 		box-shadow: var(--shadow);
 		backdrop-filter: blur(18px);
+	}
+
+	.gallery-frame::backdrop {
+		background: rgb(4 5 10 / 0.72);
 	}
 
 	.gallery-heading {
@@ -197,6 +207,102 @@
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 1rem;
 		margin-block-start: 1rem;
+	}
+
+	.gallery-frame:modal {
+		inset: 0.75rem;
+		display: grid;
+		grid-template-rows: auto minmax(0, 1fr);
+		width: auto;
+		height: auto;
+		max-width: none;
+		max-height: none;
+		margin: 0;
+		overflow: hidden;
+		background: rgb(4 5 10 / 0.92);
+	}
+
+	.gallery-frame:modal .gallery-heading {
+		position: static;
+		margin-block-end: 0.75rem;
+	}
+
+	.gallery-frame:modal .scene {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(0, 1fr) auto;
+		gap: 0.75rem;
+		min-height: 0;
+		height: 100%;
+	}
+
+	.gallery-frame:modal .featured-card {
+		--stage-depth: 0px;
+		display: grid;
+		grid-template-rows: minmax(0, 1fr) auto;
+		min-height: 0;
+		max-height: 100%;
+		transform:
+			perspective(1800px)
+			rotateX(var(--tilt-x))
+			rotateY(var(--tilt-y));
+	}
+
+	.gallery-frame:modal .image-wrap {
+		aspect-ratio: auto;
+		min-height: 0;
+		height: 100%;
+	}
+
+	.gallery-frame:modal .featured-card figcaption {
+		position: static;
+		inset: auto;
+		max-width: none;
+		border-radius: 0;
+		transform: none;
+	}
+
+	.gallery-frame:modal .thumbnail-panel {
+		position: static;
+		opacity: 1;
+		transform: none;
+	}
+
+	.gallery-frame:modal .thumbnail-strip {
+		grid-auto-columns: minmax(9rem, 18%);
+		grid-auto-flow: column;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		scroll-padding-inline: 1rem;
+		scroll-snap-type: x mandatory;
+		padding-block-end: 0.35rem;
+	}
+
+	@media (max-width: 860px) {
+		.note-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@container (max-width: 860px) {
+		.gallery-heading {
+			align-items: start;
+			flex-direction: column;
+		}
+
+		.scene,
+		.note-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.thumbnail-strip {
+			grid-auto-columns: minmax(9rem, 42%);
+			grid-auto-flow: column;
+			overflow-x: auto;
+			overscroll-behavior-inline: contain;
+			scroll-padding-inline: 1rem;
+			scroll-snap-type: x mandatory;
+			padding-block-end: 0.35rem;
+		}
 	}
 }
 
@@ -250,7 +356,8 @@
 		view-transition-name: featured-image;
 	}
 
-	.gallery-frame.is-immersive .featured-card img {
+	.gallery-frame.is-immersive .featured-card img,
+	.gallery-frame:modal .featured-card img {
 		cursor: zoom-out;
 	}
 
@@ -396,54 +503,6 @@
 		transform: translateY(-2px);
 	}
 
-	.gallery-frame.is-immersive {
-		position: fixed;
-		inset: 1rem;
-		z-index: 10;
-		display: grid;
-		align-content: center;
-		background: rgb(4 5 10 / 0.92);
-	}
-
-	.gallery-frame.is-immersive .gallery-heading {
-		position: absolute;
-		inset-block-start: 1rem;
-		inset-inline: 1rem;
-		z-index: 2;
-	}
-
-	.gallery-frame.is-immersive .scene {
-		grid-template-columns: 1fr;
-		min-height: calc(100vh - 5rem);
-	}
-
-	.gallery-frame.is-immersive .featured-card {
-		--stage-depth: 0px;
-		transform:
-			perspective(1800px)
-			rotateX(var(--tilt-x))
-			rotateY(var(--tilt-y));
-	}
-
-	.gallery-frame.is-immersive .image-wrap {
-		aspect-ratio: auto;
-		height: min(80vh, 60rem);
-	}
-
-	.gallery-frame.is-immersive .thumbnail-panel {
-		position: absolute;
-		inset-inline: clamp(1rem, 8vw, 6rem);
-		inset-block-end: 1rem;
-		transform: perspective(1200px) rotateX(62deg) translateY(24%) translateZ(-180px);
-		opacity: 0.42;
-	}
-
-	.gallery-frame.is-immersive .thumbnail-panel:hover,
-	.gallery-frame.is-immersive .thumbnail-panel:focus-within {
-		transform: perspective(1200px) rotateX(0deg) translateY(0) translateZ(0);
-		opacity: 1;
-	}
-
 	::view-transition-old(featured-image) {
 		animation: image-out 260ms ease both;
 	}
@@ -485,29 +544,6 @@
 		}
 	}
 
-	@container (max-width: 860px) {
-		.gallery-heading,
-		.scene,
-		.note-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.gallery-heading {
-			align-items: start;
-			flex-direction: column;
-		}
-
-		.thumbnail-strip {
-			grid-auto-columns: minmax(9rem, 42%);
-			grid-auto-flow: column;
-			overflow-x: auto;
-			overscroll-behavior-inline: contain;
-			scroll-padding-inline: 1rem;
-			scroll-snap-type: x mandatory;
-			padding-block-end: 0.35rem;
-		}
-	}
-
 	@media (prefers-reduced-motion: reduce) {
 		html {
 			scroll-behavior: auto;
@@ -522,8 +558,8 @@
 		}
 
 		.featured-card,
-		.gallery-frame.is-immersive .featured-card,
-		.gallery-frame.is-immersive .thumbnail-panel {
+		.gallery-frame:modal .featured-card,
+		.gallery-frame:modal .thumbnail-panel {
 			transform: none;
 		}
 	}

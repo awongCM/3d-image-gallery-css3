@@ -8,6 +8,8 @@ const featuredCaption = document.querySelector("#featured-caption");
 const thumbnails = [...document.querySelectorAll(".thumbnail")];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+let ignoreDialogClose = false;
+
 function updateSelectedThumbnail(selectedButton) {
 	thumbnails.forEach((button) => {
 		const isSelected = button === selectedButton;
@@ -42,11 +44,38 @@ function selectImage(button) {
 	updateFeaturedImage(button);
 }
 
-function setImmersiveMode(isImmersive) {
+function syncImmersiveChrome(isImmersive) {
 	gallery.classList.toggle("is-immersive", isImmersive);
 	modeToggle.setAttribute("aria-pressed", String(isImmersive));
 	modeToggle.textContent = isImmersive ? "Exit 3D view" : "Enter 3D view";
 	document.body.classList.toggle("has-immersive-gallery", isImmersive);
+
+	if (!isImmersive) {
+		resetTilt();
+	}
+}
+
+function setImmersiveMode(isImmersive) {
+	if (isImmersive) {
+		if (!gallery.matches(":modal")) {
+			ignoreDialogClose = true;
+			if (gallery.open) {
+				gallery.close();
+			}
+			gallery.showModal();
+			ignoreDialogClose = false;
+		}
+
+		syncImmersiveChrome(true);
+		return;
+	}
+
+	if (gallery.matches(":modal")) {
+		gallery.close();
+		return;
+	}
+
+	syncImmersiveChrome(false);
 }
 
 function updateTilt(event) {
@@ -72,20 +101,22 @@ thumbnails.forEach((button) => {
 });
 
 modeToggle.addEventListener("click", () => {
-	setImmersiveMode(!gallery.classList.contains("is-immersive"));
+	setImmersiveMode(!gallery.matches(":modal"));
 });
 
 featuredImage.addEventListener("click", () => {
-	setImmersiveMode(!gallery.classList.contains("is-immersive"));
+	setImmersiveMode(!gallery.matches(":modal"));
 });
 
 scene.addEventListener("pointermove", updateTilt);
 scene.addEventListener("pointerleave", resetTilt);
 
-document.addEventListener("keydown", (event) => {
-	if (event.key === "Escape" && gallery.classList.contains("is-immersive")) {
-		setImmersiveMode(false);
-		resetTilt();
-		modeToggle.focus();
+gallery.addEventListener("close", () => {
+	if (ignoreDialogClose) {
+		return;
 	}
+
+	gallery.show();
+	syncImmersiveChrome(false);
+	modeToggle.focus();
 });

@@ -12,7 +12,8 @@ The 2026 refresh keeps the same idea, but uses the browser platform features tha
 | JavaScript | jQuery event handlers and DOM reordering | Small vanilla JS controller that updates state |
 | 3D transforms | `-webkit-transform` and `-webkit-perspective` only | Standard `transform`, `perspective`, `transform-style`, and typed CSS variables |
 | Image swaps | Direct `src` update | `document.startViewTransition()` enhancement with a normal fallback |
-| Layout | Fixed 600px gallery assumptions | Responsive scene with container queries and flexible sizing |
+| Layout | Fixed 600px gallery assumptions | Responsive scene with container queries, a page-level container, and viewport fallbacks |
+| Immersive view | WebKit cube flip that rotated the stage to `#bottom` | Modal `<dialog>` tilt lightbox; captions stay in document flow inside the overlay |
 | Thumbnails | Dot links and hidden text | Scroll Snap-capable thumbnail rail with visible labels |
 | Motion preferences | Always animates | `prefers-reduced-motion` disables heavy movement |
 | Performance | All content renders at once | Native image loading hints and `content-visibility` for secondary content |
