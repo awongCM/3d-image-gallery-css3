@@ -105,8 +105,8 @@ check(
 
 check(
 	"modal dialog has a definite overlay height",
-	/\.gallery-frame:modal\s*\{[^}]*height:\s*calc\(100dvh/.test(css),
-	"Modal dialog needs a definite dvh height so the featured card 1fr row cannot collapse."
+	/\.gallery-frame:modal\s*\{[^}]*max-height:\s*calc\(100dvh/.test(css),
+	"Modal dialog needs a definite dvh max-height so the featured card row cannot collapse."
 );
 
 if (failures.length) {

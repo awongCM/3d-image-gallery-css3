@@ -55,6 +55,21 @@ function syncImmersiveChrome(isImmersive) {
 	}
 }
 
+function restoreInlineGallery() {
+	window.requestAnimationFrame(() => {
+		if (gallery.matches(":modal")) {
+			return;
+		}
+
+		if (!gallery.open) {
+			gallery.show();
+		}
+
+		syncImmersiveChrome(false);
+		modeToggle.focus();
+	});
+}
+
 function setImmersiveMode(isImmersive) {
 	if (isImmersive) {
 		if (!gallery.matches(":modal")) {
@@ -75,7 +90,7 @@ function setImmersiveMode(isImmersive) {
 		return;
 	}
 
-	syncImmersiveChrome(false);
+	restoreInlineGallery();
 }
 
 function updateTilt(event) {
@@ -116,7 +131,5 @@ gallery.addEventListener("close", () => {
 		return;
 	}
 
-	gallery.show();
-	syncImmersiveChrome(false);
-	modeToggle.focus();
+	restoreInlineGallery();
 });

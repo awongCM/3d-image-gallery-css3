@@ -414,13 +414,13 @@
 		position: fixed;
 		inset: 0.75rem;
 		display: grid;
-		grid-template-rows: auto minmax(0, 1fr);
-		width: calc(100vw - 1.5rem);
-		height: calc(100dvh - 1.5rem);
+		grid-template-rows: auto minmax(12rem, 1fr);
+		width: auto;
+		height: auto;
 		max-width: none;
 		max-height: calc(100dvh - 1.5rem);
 		margin: 0;
-		overflow: hidden;
+		overflow: auto;
 		background: rgb(4 5 10 / 0.92);
 	}
 
@@ -429,9 +429,13 @@
 		margin-block-end: 0.75rem;
 	}
 
+	.gallery-frame:modal .gallery-heading h2 {
+		font-size: clamp(1.4rem, 4vw, 2.6rem);
+	}
+
 	.gallery-frame:modal .scene {
 		grid-template-columns: 1fr;
-		grid-template-rows: minmax(0, 1fr) auto;
+		grid-template-rows: minmax(10rem, 1fr) auto;
 		gap: 0.75rem;
 		min-height: 0;
 		height: 100%;
@@ -440,7 +444,7 @@
 	.gallery-frame:modal .featured-card {
 		--stage-depth: 0px;
 		display: grid;
-		grid-template-rows: minmax(0, 1fr) auto;
+		grid-template-rows: minmax(8rem, 1fr) auto;
 		min-height: 0;
 		max-height: 100%;
 		transform:
@@ -451,7 +455,7 @@
 
 	.gallery-frame:modal .image-wrap {
 		aspect-ratio: auto;
-		min-height: 0;
+		min-height: 8rem;
 		height: 100%;
 	}
 
@@ -465,18 +469,29 @@
 
 	.gallery-frame:modal .thumbnail-panel {
 		position: static;
+		max-height: 38%;
 		opacity: 1;
 		transform: none;
 	}
 
 	.gallery-frame:modal .thumbnail-strip {
-		grid-auto-columns: minmax(9rem, 18%);
-		grid-auto-flow: column;
+		display: flex;
+		gap: 0.75rem;
 		overflow-x: auto;
 		overscroll-behavior-inline: contain;
 		scroll-padding-inline: 1rem;
 		scroll-snap-type: x mandatory;
 		padding-block-end: 0.35rem;
+	}
+
+	.gallery-frame:modal .thumbnail-strip > li {
+		flex: 0 0 7.5rem;
+		min-width: 7.5rem;
+		scroll-snap-align: start;
+	}
+
+	.gallery-frame:modal .thumbnail img {
+		height: 4.25rem;
 	}
 
 	@container (max-width: 860px) {
@@ -546,6 +561,11 @@
 
 		.thumbnail-strip::scroll-button(right) {
 			content: ">" / "Next image";
+		}
+
+		.gallery-frame:modal .thumbnail-strip::scroll-button(left),
+		.gallery-frame:modal .thumbnail-strip::scroll-button(right) {
+			display: none;
 		}
 	}
 
